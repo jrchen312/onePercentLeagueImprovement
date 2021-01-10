@@ -36,4 +36,7 @@ championLink = 'http://ddragon.leagueoflegends.com/cdn/' + latestVersion + '/dat
 championData = requests.get(championLink)
 print(championData.json()['data'][championName])
 
-
+stuff = []
+for key in championData.json()['data'][championName]:
+    stuff.append(key)
+print(stuff)

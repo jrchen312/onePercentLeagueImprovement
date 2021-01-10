@@ -44,13 +44,13 @@ jprint(response.json())
 
 
 """
-RGAPI-ed254041-105a-4d1e-b3c2-60fe367dd8bd
+RGAPI-
 
 """
 
 print()
-riotAPI = 'RGAPI-ed254041-105a-4d1e-b3c2-60fe367dd8bd'
-#response = requests.get("http://na1.api.riotgames.com/RGAPI-ed254041-105a-4d1e-b3c2-60fe367dd8bd")
+riotAPI = ''
+#response = requests.get(riotAPI)
 #print(response)
 
 
@@ -73,7 +73,7 @@ hulksmash = requests.get('https://na1.api.riotgames.com/lol/summoner/v4/summoner
 print(hulksmash.json())
 
 
-awefjiiojwefjioawefjiowfjioawefjijioawejioawejioawefjiowfjiojioawef = requests.get('https://na1.api.riotgames.com/lol/match/v4/timelines/by-match/3736067752?api_key=RGAPI-ed254041-105a-4d1e-b3c2-60fe367dd8bd')
+awefjiiojwefjioawefjiowfjioawefjijioawejioawejioawefjiowfjiojioawef = requests.get('https://na1.api.riotgames.com/lol/match/v4/timelines/by-match/3736067752?api_key=' + riotAPI)
 jprint(awefjiiojwefjioawefjiowfjioawefjijioawejioawejioawefjiowfjiojioawef.json())
 
 kimmerty = requests.get('https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/kimmerty?api_key=' + riotAPI)
