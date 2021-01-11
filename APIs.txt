@@ -1,0 +1,19 @@
+<all of these require a riot API>
+
+API to get accountID and ID
+https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/hulksmash1337?api_key=RGAPI-a0889698-...
+"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonerName + "?api_key=" + api
+
+API to get the ranks with ID
+https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/Oi0j9oC8kgA2RREm7uxna_pH8gdyBJJgIaX38soRm3A3BIik?api_key=RGAPI-a0889698-...
+"https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + ID + "?api_key=" + api
+
+API to obtain match history
+https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/9FIBsTLPJbOibi6VoTgmq43stRQPigH1W8TheQdYj3quMg?endIndex=700&beginIndex=600&api_key=
+"https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/" + accountID + "?endIndex=" + endIndex + "&beginIndex=" + beginIndex + "&api_key=" + API 
+
+API to obtain the details of a match
+https://na1.api.riotgames.com/lol/match/v4/matches/2956810467?api_key=RGAPI-a0889698-...
+"https://na1.api.riotgames.com/lol/match/v4/matches/" + matchID" + "?api_key=" + api
+
+

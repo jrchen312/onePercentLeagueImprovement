@@ -64,9 +64,13 @@ print(championData.json()['data'][championName]['recommended']) #? useless??
 """
 
 while True:
-    championName = input("Champion Name: ").title()
+    championName = input("Champion Name: ").title().strip()
     # ISSUE: doesn't work for lee sin.
-    
+    i = championName.find(" ")
+    while i != -1:
+        championName = championName[0:i] + championName[i+1:] 
+        i = championName.find(" ")
+
     if championName not in championDicts:
         print("Name not in database, try again. ")
         continue
