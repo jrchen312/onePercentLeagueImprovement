@@ -26,6 +26,7 @@ def appStarted(self):
     self.searchScreen = True
     self.hideText = False
 
+    self.loading = False
 
 def keyPressed(self, event):
     if self.searchScreen:
@@ -42,7 +43,8 @@ def keyPressed(self, event):
             else:
                 self.failedAttempt = False
                 self.searchScreen = False
-                obtainChampionStats(self)
+                self.loading = True
+                #obtainChampionStats(self)
     else:
         if event.key == 'Escape':
             self.searchScreen = True
@@ -119,6 +121,7 @@ def obtainChampionStats(self):
     self.attackrange = championStats['attackrange']
 
     loadSkins(self)
+    self.loading = False
 
 
 def loadSkins(self):
@@ -152,6 +155,8 @@ def isValidName(self):
 def timerFired(self):
     if self.searchScreen:
         typingCursorSetting(self)
+    if self.loading:
+        obtainChampionStats(self)
 
 def typingCursorSetting(self):
     self.typeCursorFrame = (self.typeCursorFrame + 1) % self.typeCursorFrames
@@ -163,7 +168,7 @@ def rgbString(r, g, b):
     return f'#{r:02x}{g:02x}{b:02x}'
 
 def redrawAll(self, canvas):
-    if self.searchScreen:
+    if self.searchScreen or self.loading:
         searchScreen(self, canvas)
     else:
         championScreen(self, canvas)
@@ -210,6 +215,9 @@ def searchScreen(self, canvas):
 
     if self.failedAttempt:
         canvas.create_text(self.width//2-w, self.height//2-h-17, text="Name not found in database. Try again.", fill = "red", anchor = "w", font = "helvetica 12")
+
+    if self.loading:
+        canvas.create_text(self.width//2-w, self.height//2-h-17, text="Loading...", fill = "Black", anchor = "w", font = "helvetica 12")
 
 #################################################
 # main
