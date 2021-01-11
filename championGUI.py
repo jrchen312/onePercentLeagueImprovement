@@ -24,6 +24,7 @@ def appStarted(self):
     self.typeCursorFrames = 4
 
     self.searchScreen = True
+    self.hideText = False
 
 
 def keyPressed(self, event):
@@ -45,6 +46,8 @@ def keyPressed(self, event):
     else:
         if event.key == 'Escape':
             self.searchScreen = True
+        else:
+            self.hideText = not self.hideText
 
 
 def obtainChampionStats(self):
@@ -172,23 +175,25 @@ def championScreen(self, canvas):
 
     w = 300
     h = 400
-    lovelyblack = rgbString(30, 34, 52)
-    canvas.create_rectangle(self.width/2-w, self.height/2-50, self.width/2+w, self.height/2+h, fill = lovelyblack)
 
-    championTitle = self.championName.upper() + ", " +self.championTitle
-    canvas.create_text(self.width//2, self.height//2, fill = "white", text = championTitle, font = "arial 30 bold")
+    if not self.hideText:
+        lovelyblack = rgbString(30, 34, 52)
+        canvas.create_rectangle(self.width/2-w, self.height/2-50, self.width/2+w, self.height/2+h, fill = lovelyblack)
 
-    championAttribute = f"{self.championName} is a {self.championAttributes}"
-    canvas.create_text(self.width//2, self.height//2 + 50, fill = "white", text = championAttribute, font = "arial 20 bold")
+        championTitle = self.championName.upper() + ", " +self.championTitle
+        canvas.create_text(self.width//2, self.height//2, fill = "white", text = championTitle, font = "arial 30 bold")
 
-    tip = "A tip: " + self.championTip
-    if len(tip) > 70:
-        i = len(tip) // 2
-        tip = tip[:i] + '-\n' + tip[i:]
-    canvas.create_text(self.width//2, self.height//2 + 100, fill = "white", text = tip, font = "arial 12")
+        championAttribute = f"{self.championName} is a {self.championAttributes}"
+        canvas.create_text(self.width//2, self.height//2 + 50, fill = "white", text = championAttribute, font = "arial 20 bold")
 
-    difficulty = "Champion Difficulty: " + str(self.championDifficulty) + "/10"
-    canvas.create_text(self.width//2, self.height//2 + 150, fill = "white" ,text = difficulty)
+        tip = "A tip: " + self.championTip
+        if len(tip) > 70:
+            i = len(tip) // 2
+            tip = tip[:i] + '-\n' + tip[i:]
+        canvas.create_text(self.width//2, self.height//2 + 100, fill = "white", text = tip, font = "arial 12")
+
+        difficulty = "Champion Difficulty: " + str(self.championDifficulty) + "/10"
+        canvas.create_text(self.width//2, self.height//2 + 150, fill = "white" ,text = difficulty)
 
 
 def searchScreen(self, canvas):
