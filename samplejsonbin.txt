@@ -1,0 +1,820 @@
+{
+    "alias": "Yone",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/777.ogg",
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/777.ogg",
+    "id": 777,
+    "name": "Yone",
+    "passive": {
+        "abilityIconPath": "/lol-game-data/assets/ASSETS/Characters/Yone/HUD/Icons2D/YonePassive.Yone.png",
+        "abilityVideoImagePath": "champion-abilities/0777/ability_0777_P1.jpg",
+        "abilityVideoPath": "champion-abilities/0777/ability_0777_P1.webm",
+        "description": "Yone deals magic damage with every second Attack. In addition, his critical strike chance is increased.",
+        "name": "Way of the Hunter"
+    },
+    "playstyleInfo": {
+        "crowdControl": 2,
+        "damage": 3,
+        "durability": 1,
+        "mobility": 3,
+        "utility": 1
+    },
+    "recommendedItemDefaults": [
+        "/DATA/Characters/Yone/Recommended/Beginner.json",
+        "/DATA/Characters/Yone/Recommended/YoneARAM.json",
+        "/DATA/Characters/Yone/Recommended/YoneFIRSTBLOOD.json",
+        "/DATA/Characters/Yone/Recommended/YoneNB.json",
+        "/DATA/Characters/Yone/Recommended/YoneODYSSEY.json",
+        "/DATA/Characters/Yone/Recommended/YoneSR.json"
+    ],
+    "roles": [
+        "assassin",
+        "fighter"
+    ],
+    "shortBio": "In life, he was Yone\u2014half-brother of Yasuo, and renowned student of his village's sword school. But upon his death at the hands of his brother, he found himself hunted by a malevolent entity of the spirit realm, and was forced to slay it with its own sword. Now, cursed to wear its demonic mask upon his face, Yone tirelessly hunts all such creatures in order to understand what he has 
+become.",
+    "skins": [
+        {
+            "chromaPath": null,
+            "collectionSplashVideoPath": null,
+            "description": null,
+            "emblems": null,
+            "featuresText": null,
+            "id": 777000,
+            "isBase": true,
+            "isLegacy": false,
+            "loadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Yone/Skins/Base/YoneLoadScreen.Yone.jpg",
+            "name": "Yone",
+            "rarity": "kNoRarity",
+            "rarityGemPath": null,
+            "regionRarityId": 0,
+            "skinLines": null,
+            "skinType": "",
+            "splashPath": "/lol-game-data/assets/v1/champion-splashes/777/777000.jpg",
+            "splashVideoPath": null,
+            "tilePath": "/lol-game-data/assets/v1/champion-tiles/777/777000.jpg",
+            "uncenteredSplashPath": "/lol-game-data/assets/v1/champion-splashes/uncentered/777/777000.jpg"
+        },
+        {
+            "chromaPath": "/lol-game-data/assets/v1/champion-chroma-images/777/777001.png",
+            "chromas": [
+                {
+                    "chromaPath": "/lol-game-data/assets/v1/champion-chroma-images/777/777002.png",
+                    "colors": [
+                        "#D33528",
+                        "#D33528"
+                    ],
+                    "descriptions": [
+                        {
+                            "description": "This chroma was released as a bundle exclusive in 2020.",
+                            "region": "riot"
+                        }
+                    ],
+                    "id": 777002,
+                    "name": "Spirit Blossom Yone",
+                    "rarities": [
+                        {
+                            "rarity": 1,
+                            "region": "riot"
+                        }
+                    ]
+                },
+                {
+                    "chromaPath": "/lol-game-data/assets/v1/champion-chroma-images/777/777003.png",
+                    "colors": [
+                        "#6ABBEE",
+                        "#6ABBEE"
+                    ],
+                    "descriptions": [],
+                    "id": 777003,
+                    "name": "Spirit Blossom Yone",
+                    "rarities": []
+                },
+                {
+                    "chromaPath": "/lol-game-data/assets/v1/champion-chroma-images/777/777004.png",
+                    "colors": [
+                        "#FFEE59",
+                        "#FFEE59"
+                    ],
+                    "descriptions": [],
+                    "id": 777004,
+                    "name": "Spirit Blossom Yone",
+                    "rarities": []
+                },
+                {
+                    "chromaPath": "/lol-game-data/assets/v1/champion-chroma-images/777/777005.png",
+                    "colors": [
+                        "#2DA130",
+                        "#2DA130"
+                    ],
+                    "descriptions": [],
+                    "id": 777005,
+                    "name": "Spirit Blossom Yone",
+                    "rarities": []
+                },
+                {
+                    "chromaPath": "/lol-game-data/assets/v1/champion-chroma-images/777/777006.png",
+                    "colors": [
+                        "#E58BA5",
+                        "#E58BA5"
+                    ],
+                    "descriptions": [],
+                    "id": 777006,
+                    "name": "Spirit Blossom Yone",
+                    "rarities": [
+                        {
+                            "rarity": 1,
+                            "region": "TENCENT"
+                        }
+                    ]
+                },
+                {
+                    "chromaPath": "/lol-game-data/assets/v1/champion-chroma-images/777/777007.png",
+                    "colors": [
+                        "#54209B",
+                        "#54209B"
+                    ],
+                    "descriptions": [],
+                    "id": 777007,
+                    "name": "Spirit Blossom Yone",
+                    "rarities": []
+                },
+                {
+                    "chromaPath": "/lol-game-data/assets/v1/champion-chroma-images/777/777008.png",
+                    "colors": [
+                        "#0C0C0F",
+                        "#B2D1E4"
+                    ],
+                    "descriptions": [
+                        {
+                            "description": "This chroma was released as a Loot exclusive in the 2020 Spirit Blossom event.",
+                            "region": "riot"
+                        }
+                    ],
+                    "id": 777008,
+                    "name": "Spirit Blossom Yone",
+                    "rarities": [
+                        {
+                            "rarity": 1,
+                            "region": "riot"
+                        }
+                    ]
+                },
+                {
+                    "chromaPath": "/lol-game-data/assets/v1/champion-chroma-images/777/777009.png",
+                    "colors": [
+                        "#27211C",
+                        "#27211C"
+                    ],
+                    "descriptions": [],
+                    "id": 777009,
+                    "name": "Spirit Blossom Yone",
+                    "rarities": []
+                }
+            ],
+            "collectionSplashVideoPath": null,
+            "description": "Long ago, two brothers fought a bitter war across Ionia. Yone, the older brother, was a warlord renowned for his adherence to honor and duty. He fought to defend the country against those who would break its rites and rituals - until he was forced to confront his own brother for his crimes. Both were fated to fall in their final duel\u2026 a lesson, perhaps, in pride and hubris.",
+            "emblems": null,
+            "featuresText": null,
+            "id": 777001,
+            "isBase": false,
+            "isLegacy": false,
+            "loadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Yone/Skins/Skin01/YoneLoadScreen_1.Yone.jpg",
+            "loadScreenVintagePath": "/lol-game-data/assets/ASSETS/Characters/Yone/Skins/Skin01/YoneLoadscreen_1_LE.Yone.jpg",
+            "name": "Spirit Blossom Yone",
+            "rarity": "kEpic",
+            "rarityGemPath": null,
+            "regionRarityId": 0,
+            "skinLines": [
+                {
+                    "id": 132
+                }
+            ],
+            "skinType": "",
+            "splashPath": "/lol-game-data/assets/v1/champion-splashes/777/777001.jpg",
+            "splashVideoPath": null,
+            "tilePath": "/lol-game-data/assets/v1/champion-tiles/777/777001.jpg",
+            "uncenteredSplashPath": "/lol-game-data/assets/v1/champion-splashes/uncentered/777/777001.jpg"
+        }
+    ],
+    "spells": [
+        {
+            "abilityIconPath": "/lol-game-data/assets/ASSETS/Characters/Yone/HUD/Icons2D/YoneQ.Yone.png",
+            "abilityVideoImagePath": "champion-abilities/0777/ability_0777_Q1.jpg",
+            "abilityVideoPath": "champion-abilities/0777/ability_0777_Q1.webm",
+            "ammo": {
+                "ammoRechargeTime": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "maxAmmo": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            "coefficients": {
+                "coefficient1": 1.0,
+                "coefficient2": 0.0
+            },
+            "cooldown": "@f1@s Cooldown",
+            "cooldownCoefficients": [
+                4.0,
+                4.0,
+                4.0,
+                4.0,
+                4.0,
+                4.0
+            ],
+            "cost": "No Cost",
+            "costCoefficients": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "description": "Thrusts forward, damaging all enemies in a line.<br><br>On hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Mortal Steel dashes Yone forward with a gust of wind knocking enemies <status>Airborne</status>.<br><br>Mortal Steel is treated as a basic attack and scales with all the same things.",
+            "dynamicDescription": "Yone thrusts forward, dealing <physicalDamage>@QDamage@ physical damage</physicalDamage>.<br><br>On hit, grants a stack for @BuffDuration@ seconds. At 2 stacks, this skill causes Yone to dash forward with a wave of wind that <status>Knocks Up</status> for @Q3KnockupDuration@ seconds and deal <physicalDamage>@QDamage@ physical damage</physicalDamage>. ",
+            "effectAmounts": {
+                "Effect10Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect1Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect2Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect3Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect4Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect5Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect6Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect7Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect8Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect9Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "formulas": {},
+            "maxLevel": 0,
+            "name": "Mortal Steel",
+            "range": [
+                450.0,
+                450.0,
+                450.0,
+                450.0,
+                450.0,
+                450.0
+            ],
+            "spellKey": "q"
+        },
+        {
+            "abilityIconPath": "/lol-game-data/assets/ASSETS/Characters/Yone/HUD/Icons2D/YoneW.Yone.png",
+            "abilityVideoImagePath": "champion-abilities/0777/ability_0777_W1.jpg",
+            "abilityVideoPath": "champion-abilities/0777/ability_0777_W1.webm",
+            "ammo": {
+                "ammoRechargeTime": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "maxAmmo": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            "coefficients": {
+                "coefficient1": 0.0,
+                "coefficient2": 0.0
+            },
+            "cooldown": "@f1@s Cooldown",
+            "cooldownCoefficients": [
+                16.0,
+                16.0,
+                16.0,
+                16.0,
+                16.0,
+                16.0
+            ],
+            "cost": "No Cost",
+            "costCoefficients": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "description": "Cleaves forward, damaging all enemies in a cone. Grants a shield to Yone, the value is increased by the number of champions hit by the swipe.<br><br>Spirit Cleave's cooldown and cast time scale with attack speed.",
+            "dynamicDescription": "Yone cleaves forward, dealing <physicalDamage>@BaseDamage*0.5@ + @MaxHealthDamage*50@% max Health physical damage</physicalDamage> and <magicDamage>@BaseDamage*0.5@ + @MaxHealthDamage*50@% max Health magic damage</magicDamage>.<br><br>If Yone hits, he gains <shield>@WShield@ Shield</shield> for @ShieldDuration@ seconds. The amount of <shield>Shield</shield> increases for each champion struck. ",
+            "effectAmounts": {
+                "Effect10Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect1Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect2Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect3Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect4Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect5Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect6Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect7Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect8Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect9Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "formulas": {},
+            "maxLevel": 0,
+            "name": "Spirit Cleave",
+            "range": [
+                700.0,
+                700.0,
+                700.0,
+                700.0,
+                700.0,
+                700.0
+            ],
+            "spellKey": "w"
+        },
+        {
+            "abilityIconPath": "/lol-game-data/assets/ASSETS/Characters/Yone/HUD/Icons2D/YoneE.Yone.png",
+            "abilityVideoImagePath": "champion-abilities/0777/ability_0777_E1.jpg",
+            "abilityVideoPath": "champion-abilities/0777/ability_0777_E1.webm",
+            "ammo": {
+                "ammoRechargeTime": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "maxAmmo": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            "coefficients": {
+                "coefficient1": 0.0,
+                "coefficient2": 0.0
+            },
+            "cooldown": "@Cooldown@s %i:cooldown%",
+            "cooldownCoefficients": [
+                22.0,
+                19.0,
+                16.0,
+                13.0,
+                10.0,
+                10.0
+            ],
+            "cost": "No Cost",
+            "costCoefficients": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "description": "Yone's spirit leaves his body behind, gaining movement speed. When this skill ends, Yone's spirit is forced back to his body and he repeats a portion of the damage he dealt as 
+a spirit.",
+            "dynamicDescription": "Yone enters a spirit form for @ReturnTimer@ seconds, leaving his body behind for the duration and gaining <speed>@StartingMS*100@% ramping Move Speed</speed>. <br><br>When the spirit form ends, Yone snaps back to his body and repeat @DeathmarkPercent*100@% of all damage he dealt to champions during this time. You may <recast>Recast</recast> this skill during spirit form.<br><br><recast>Recast: </recast>End spirit form early.",
+            "effectAmounts": {
+                "Effect10Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect1Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect2Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect3Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect4Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect5Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect6Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect7Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect8Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect9Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "formulas": {},
+            "maxLevel": 0,
+            "name": "Soul Unbound",
+            "range": [
+                25000.0,
+                25000.0,
+                25000.0,
+                25000.0,
+                25000.0,
+                25000.0
+            ],
+            "spellKey": "e"
+        },
+
+
+
+        R ABILITY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        {
+            "abilityIconPath": "/lol-game-data/assets/ASSETS/Characters/Yone/HUD/Icons2D/YoneR.Yone.png",
+            "abilityVideoImagePath": "champion-abilities/0777/ability_0777_R1.jpg",
+            "abilityVideoPath": "champion-abilities/0777/ability_0777_R1.webm",
+            "ammo": {
+                "ammoRechargeTime": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "maxAmmo": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            "coefficients": {
+                "coefficient1": 1.0,
+                "coefficient2": 0.0
+            },
+            "cooldown": "@Cooldown@s %i:cooldown%",
+            "cooldownCoefficients": [
+                120.0,
+                100.0,
+                80.0,
+                10.0,
+                10.0,
+                10.0
+            ],
+            "cost": "No Cost",
+            "costCoefficients": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "description": "Yone blinks behind the last champion in a line with a slash so powerful it pulls all enemies hit towards him.",
+            "dynamicDescription": "Yone strikes all enemies along a path for <physicalDamage>@TooltipDamage@ physical damage</physicalDamage> and <magicDamage>@TooltipDamage@ magic damage</magicDamage>, teleporting behind the last champion hit and <status>Knocking Up</status> victims towards Yone.",
+            "effectAmounts": {
+                "Effect10Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect1Amount": [
+                    10.0,
+                    10.0,
+                    20.0,
+                    30.0,
+                    40.0,
+                    50.0,
+                    60.0
+                ],
+                "Effect2Amount": [
+                    450.0,
+                    450.0,
+                    450.0,
+                    450.0,
+                    450.0,
+                    450.0,
+                    450.0
+                ],
+                "Effect3Amount": [
+                    1300.0,
+                    1300.0,
+                    1300.0,
+                    1300.0,
+                    1300.0,
+                    1300.0,
+                    1300.0
+                ],
+                "Effect4Amount": [
+                    8.0,
+                    8.0,
+                    8.0,
+                    8.0,
+                    8.0,
+                    8.0,
+                    8.0
+                ],
+                "Effect5Amount": [
+                    120.0,
+                    120.0,
+                    120.0,
+                    120.0,
+                    120.0,
+                    120.0,
+                    120.0
+                ],
+                "Effect6Amount": [
+                    260.0,
+                    260.0,
+                    260.0,
+                    260.0,
+                    260.0,
+                    260.0,
+                    260.0
+                ],
+                "Effect7Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect8Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "Effect9Amount": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "formulas": {},
+            "maxLevel": 0,
+            "name": "Fate Sealed",
+            "range": [
+                1000.0,
+                1000.0,
+                1000.0,
+                1000.0,
+                1000.0,
+                1000.0
+            ],
+            "spellKey": "r"
+        }
+    ],
+
+    
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/777.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/777.ogg",
+    "tacticalInfo": {
+        "damageType": "kMixed",
+        "difficulty": 3,
+        "style": 5
+    },
+    "title": "the Unforgotten"
+}

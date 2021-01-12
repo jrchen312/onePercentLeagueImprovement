@@ -17,3 +17,18 @@ https://na1.api.riotgames.com/lol/match/v4/matches/2956810467?api_key=RGAPI-a088
 "https://na1.api.riotgames.com/lol/match/v4/matches/" + matchID" + "?api_key=" + api
 
 
+
+<public apis>
+
+accessing images:
+https://ddragon.leagueoflegends.com/cdn/11.1.1/img/spell/NunuQ.png
+"https://ddragon.leagueoflegends.com/cdn/" + self.latestVersion + "/img/spell/" + spellName
+
+passives:
+https://ddragon.leagueoflegends.com/cdn/11.1.1/img/passive/Anivia_P.png
+
+champion icons:
+https://ddragon.leagueoflegends.com/cdn/11.1.1/img/champion/Aatrox.png
+
+champion splashes (variable number)
+https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg

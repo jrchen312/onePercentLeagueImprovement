@@ -151,3 +151,22 @@ while True:
     print(championTip)
     print("Champion Difficulty: " + str(championDifficulty) + "/10")
     print()
+
+    #delete most of this later. processing the abilities: (Q ability)
+    #jprint(championData.json()['data'][championName]['spells'][0])
+    q = championData.json()['data'][championName]['spells'][0]
+
+    qAttributes = []
+    for key in q:
+        qAttributes.append(key)
+    #print(qAttributes)
+
+    jprint(championData.json()['data'][championName]['passive'])
+
+    passiveImgLink = championData.json()['data'][championName]['passive']['image']['full'] #Lulu.png
+    description = championData.json()['data'][championName]['passive']['description']
+    passiveName = championData.json()['data'][championName]['passive']['name']
+
+
+    #test = requests.get('https://cdn.communitydragon.org/latest/champion/aatrox/data')
+    #print(test.status_code)

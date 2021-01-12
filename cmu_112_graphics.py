@@ -247,6 +247,7 @@ class App(object):
     def mouseReleased(app, event): pass # use event.x and event.y
     def mouseMoved(app, event): pass    # use event.x and event.y
     def mouseDragged(app, event): pass  # use event.x and event.y
+    def mouseScrolled(app, event): pass
     def timerFired(app): pass           # respond to timer events
     def sizeChanged(app): pass          # respond to window size changes
 
@@ -650,6 +651,7 @@ class TopLevelApp(App):
     def mouseReleased(app, event): app._callFn('mouseReleased', app, event)
     def mouseMoved(app, event): app._callFn('mouseMoved', app, event)
     def mouseDragged(app, event): app._callFn('mouseDragged', app, event)
+    def mouseScrolled(app, event): app._callFn('mouseScrolled', app, event)
     def timerFired(app): app._callFn('timerFired', app)
     def sizeChanged(app): app._callFn('sizeChanged', app)
 
@@ -700,6 +702,8 @@ class ModalApp(App):
         if (app._activeMode != None): app._activeMode.mouseMoved(event)
     def mouseDragged(app, event):
         if (app._activeMode != None): app._activeMode.mouseDragged(event)
+    def mouseScrolled(app, event):
+        if (app._activeMode != None): app._activeMode.mouseScrolled(event)
     def timerFired(app):
         if (app._activeMode != None): app._activeMode.timerFired()
     def sizeChanged(app):
