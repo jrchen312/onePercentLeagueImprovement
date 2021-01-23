@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 import time
 
-API = 'RGAPI-d6e56b7d-ab94-4fd2-9583-04a04634ce82'
+API = ''
 
 #printing json files. 
 def jprint(obj):

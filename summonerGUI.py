@@ -14,7 +14,7 @@ class MyModalApp(ModalApp):
 
         #
         # API:
-        app.api = "RGAPI-b961e6d3-0dbd-4161-b7c0-5f9a1a25acf9"
+        app.api = ""
         #
         #
         app.summonerInfo = dict()
@@ -247,10 +247,10 @@ class SummonerInfo(Mode):
             self.matchIds[self.j]['summonerStats'] = statsOfSummoner
             self.matchIds[self.j]['everybodyStats'] = participantStats
             self.j += 1
-        else:
-            self.estimatedTime = int((len(self.matchIds) - self.j) * 1.1)
-            self.progress = int(100 - (len(self.matchIds)-self.j)/(len(self.matchIds))*100)
-            print(f"Estimated Time remaining: {self.estimatedTime} seconds; progress: {self.progress}%")
+        
+        self.estimatedTime = int((len(self.matchIds) - self.j) * 1.1)
+        self.progress = int(100 - (len(self.matchIds)-self.j)/(len(self.matchIds))*100)
+        #print(f"Estimated Time remaining: {self.estimatedTime} seconds; progress: {self.progress}%")
 
     def getParticipantIdOfSummoner(self, participants):
         for participant in participants:
@@ -282,7 +282,6 @@ class SummonerInfo(Mode):
                 fileName = file + 'Data.txt'
                 with open(fileName, 'w') as outfile:
                     json.dump(self.matchIds, outfile, indent=4)
-                print("FUCKIGN FINALLY POGGERS !!")
                 SummonerInfo.appStarted(self)
         pass
 
@@ -310,7 +309,18 @@ class SummonerInfo(Mode):
         canvas.create_rectangle(x, y, x1, y1, fill=color, width = 0)
         canvas.create_text(x + (x1-x)/2, y + (y1-y)/2, fill='white', text="Update", font = "Arial 12 bold")
 
-        #trying to draw the enemies:
+        #if we are updating, draw the progress bar
+        if self.updating:
+            length = 400
+            x0, y0, x1, y1 = pageLeft+100, 260, pageLeft+100 + length, 285
+            canvas.create_rectangle(x0, y0, x1, y1)
+
+            ext = self.progress/100* length
+            canvas.create_rectangle(x0, y0, x0 + ext, y1, fill = 'green', width = 0)
+            
+
+
+        #trying to draw the champions last played in 15 games:
         x0, y0, x1, y1 = pageLeft+370, 40, pageLeft+ 600, 235
         canvas.create_rectangle(x0, y0, x1, y1)
         if self.fifteenStats == None:
