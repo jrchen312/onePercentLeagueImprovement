@@ -1,7 +1,6 @@
 #import championStats
 from cmu_112_graphics import *
 import requests
-import json
 import random
 
 def appStarted(self):

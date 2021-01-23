@@ -16,6 +16,9 @@ API to obtain the details of a match
 https://na1.api.riotgames.com/lol/match/v4/matches/2956810467?api_key=RGAPI-a0889698-...
 "https://na1.api.riotgames.com/lol/match/v4/matches/" + matchID" + "?api_key=" + api
 
+API to obtain the match timeline:
+https://na1.api.riotgames.com/lol/match/v4/timelines/by-match/2956810467?api_key=RGAPI-df1a0f1b-8b05-4e31-8c80-9a4066889a48
+'https://na1.api.riotgames.com/lol/match/v4/timelines/by-match/' + matchID + '?api_key=' + API
 
 
 <public apis>
