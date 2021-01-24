@@ -2,6 +2,7 @@
 Uses the Riot API for League of Legends to obtain match history data. The program is able to review all match histories from the past two years and display a summary of the results. 
 
 A sorting algorithm sorts the data by the user's parameters. 
+![pic0](https://github.com/jrchen312/onePercentLeagueImprovement/blob/main/images/summonerGUI1.png)
 
 # Champions GUI
 Uses the Riot API (DataDragon) to obtain data about all the champions from League of Legends. 
