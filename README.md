@@ -1,5 +1,10 @@
+# Summoner GUI
+Uses the Riot API for League of Legends to obtain match history data. The program is able to review all match histories from the past two years and display a summary of the results. 
+
+A sorting algorithm sorts the data by the user's parameters. 
+
 # Champions GUI
-Uses the riot API (DataDragon) to obtain data about all the champions from League of Legends. 
+Uses the Riot API (DataDragon) to obtain data about all the champions from League of Legends. 
 Parses through API data to obtain information about the skills that all of the champions have. The app also obtains champion splash screens and icon images from the API. 
 
 ### Instructions
