@@ -5,6 +5,28 @@ from cmu_112_graphics import *
 import json
 import time
 
+
+class Button(object):
+    xsize = 64
+    ysize = 30
+    def __init__(self, x, y, text):
+        self.x = x
+        self.y = y
+        self.text = text
+    
+    def draw(self, app, canvas):
+        #canvas.create_rectangle(self.x-Button.xsize/2, self.y-Button.ysize/2, self.x + Button.xsize/2, self.y+Button.ysize/2)
+        if app.sortingFactor == self.text:
+            canvas.create_rectangle(self.x-Button.xsize/2, self.y-Button.ysize/2, self.x + Button.xsize/2, self.y+Button.ysize/2, fill='grey', width = 0)
+        canvas.create_text(self.x, self.y, text=self.text)
+    
+    def pointInButton(self, px, py):
+        if (self.x-Button.xsize/2 <= px <= self.x + Button.xsize/2 and
+            self.y-Button.ysize/2 <= py <= self.y + Button.ysize/2):
+            return self.text
+        return None
+
+
 class MyModalApp(ModalApp):
     def appStarted(app):
         app.searchScreenMode = SearchScreen()
@@ -14,7 +36,8 @@ class MyModalApp(ModalApp):
 
         #
         # API:
-        app.api = ""
+        app.api = "RGAPI-5cded9e3-6780-45df-83a3-b204978939bc"
+        app.seasonStart = 1609920000 #time of start of season 11
         #
         #
         app.summonerInfo = dict()
@@ -41,6 +64,106 @@ class SummonerInfo(Mode):
         self.j = 0
         self.progress = 0
         self.estimatedTime = 0
+
+        self.mode = "overview" # "overview", "champions", "improvement"??
+        self.modeButtonSize = (self.width-self.pageLeft*2)//3
+        self.screenShift = 0
+
+        #loading information related to the champions--aggregate champion games and ranked stats: ('champions')
+        self.sortingFactor = 'Games'
+        self.descending = True
+        SummonerInfo.loadAggregateStats(self)
+        SummonerInfo.create_buttons(self)
+
+    def loadAggregateStats(self):
+        if self.matchHistory == None:
+            self.aggregateGameStats = None
+            self.rankedStats = None
+            return
+        self.aggregateGameStats = dict()
+        self.rankedStats = {'games':0, 'wins':0, 'losses':0}
+        for match in self.matchHistory:
+            #match['timestamp'] is milliseconds epoch time, seasonStart is seconds
+            if match['queue'] == 420 and match['timestamp']//1000 >= self.app.seasonStart: 
+                self.rankedStats['games'] += 1
+                if match['summonerStats']['stats']['win']:
+                    self.rankedStats['wins'] += 1
+                else:
+                    self.rankedStats['losses'] += 1
+            championPlayedKey = match['champion']
+            championPlayed = self.IDtoChampion[str(championPlayedKey)]
+            #champsPlayed[championPlayed] = champsPlayed.get(championPlayed, 0) + 1
+            information = self.aggregateGameStats.get(championPlayed, None)
+
+            #not necessarily effective, but it's "neater"
+            if information == None: 
+                information = dict()
+                information['gamesPlayed'] = 0
+                information['wins'] = 0
+                information['losses'] = 0
+                #stats
+                information['totalDamage'] = 0
+                information['totalTaken'] = 0
+                information['visionScore'] = 0
+                information['goldEarned'] = 0
+                information['totalMinionsKilled'] = 0
+                #KDA
+                information['totalKills'] = 0
+                information['totalDeaths'] = 0
+                information['totalAssists'] = 0
+                #game
+                information['gameDuration'] = 0
+                information['rankedMatches'] = 0
+
+            if match['queue'] == 420:
+                information['rankedMatches'] += 1
+            if match['summonerStats']['stats']['win']:
+                information['wins'] += 1
+            else:
+                information['losses'] += 1
+            information['gamesPlayed'] += 1
+
+            information['totalDamage'] += match['summonerStats']['stats']['totalDamageDealtToChampions']
+            information['totalTaken'] += match['summonerStats']['stats']['totalDamageTaken']
+            information['visionScore'] += match['summonerStats']['stats']['visionScore']
+            information['goldEarned'] += match['summonerStats']['stats']['goldEarned']
+            information['totalMinionsKilled'] += match['summonerStats']['stats']['totalMinionsKilled'] + match['summonerStats']['stats']['neutralMinionsKilled']
+            information['totalKills'] += match['summonerStats']['stats']['kills']
+            information['totalDeaths'] += match['summonerStats']['stats']['deaths']
+            information['totalAssists'] += match['summonerStats']['stats']['assists']
+            information['gameDuration'] += match['gameDuration']
+
+
+            self.aggregateGameStats[championPlayed] = information
+        #print(self.aggregateGameStats) #dictionary form
+        #print(SummonerInfo.sortDictionary(self, self.aggregateGameStats, 'gamesPlayed')) #list form. 
+
+        self.championStats = dict()
+        for key in self.aggregateGameStats:
+            temp = dict()
+            numGames = self.aggregateGameStats[key]['gamesPlayed']
+            temp['Games'] = numGames
+            temp['Wins'] = self.aggregateGameStats[key]['wins']
+            temp['Losses'] = self.aggregateGameStats[key]['losses']
+            temp['Win Rate'] = round(temp['Wins']/numGames, 3) * 100
+            temp['Kills'] = round(self.aggregateGameStats[key]['totalKills']/numGames, 1)
+            temp['Deaths'] = round(self.aggregateGameStats[key]['totalDeaths']/numGames, 1)
+            temp['Assists'] = round(self.aggregateGameStats[key]['totalAssists']/numGames, 1)
+            temp['Damage'] = round(self.aggregateGameStats[key]['totalDamage']/numGames, 1)
+            temp['Dmg Taken'] = round(self.aggregateGameStats[key]['totalTaken']/numGames, 1)
+            temp['Vision'] = round(self.aggregateGameStats[key]['visionScore']/numGames, 1)
+            temp['Gold'] = round(self.aggregateGameStats[key]['goldEarned']/numGames, 1)
+            temp['CS'] = round(self.aggregateGameStats[key]['totalMinionsKilled']/numGames, 1)
+            temp['gameDuration'] = round(self.aggregateGameStats[key]['gameDuration']/numGames)
+            self.championStats[key] = temp
+        #print(self.championStats)
+
+        self.sortedAggregateStats = SummonerInfo.sortDictionary(self, self.championStats, self.sortingFactor)
+        self.sortedAggregateStats.reverse()
+        #print(self.sortedAggregateStats)
+        #buttons:
+        #['Games', 'Wins', 'Losses', 'Win Rate', 'Kills', 'Deaths', 'Assists', 'Damage', 'Dmg Taken', 'Vision', 'Gold', 'CS']
+
 
 
     def summonerIconRank(self):
@@ -210,10 +333,48 @@ class SummonerInfo(Mode):
         if buttonX <= event.x <= buttonX1 and buttonY <= event.y <= buttonY1:
             print('UPDATING')
             self.updating = True
-
+        ##################################
+        #Code for the mode buttons: pretty poor practice
+        #button1 position:
+        buttonSize = self.modeButtonSize
+        x0, y0, x1, y1 = self.pageLeft, 290, self.pageLeft+buttonSize, 320
+        #button2 position:
+        x2, y2, x3, y3 = self.pageLeft+ buttonSize, 290, self.pageLeft+buttonSize * 2, 320
+        #button3 pos:
+        x4, y4, x5, y5 = self.pageLeft + buttonSize*2, 290, self.pageLeft+buttonSize*3, 320
+        if x0 <= event.x <= x1 and y0 <= event.y <= y1:
+            self.mode = "overview"
+            self.screenShift = 0
+        elif x2 <= event.x <= x3 and y2 <= event.y <= y3:
+            self.mode = "champions"
+            self.screenShift = 0
+        elif x4 <= event.x <= x5 and y4 <= event.y <= y5:
+            self.mode = "improvement"
+            self.screenShift = 0
+        
+        ############
+        # code for the buttons on the 'champions' screen
+        if self.mode == 'champions':
+            for button in self.buttons:
+                result = button.pointInButton(event.x, event.y)
+                if result != None and result != "Champion":
+                    if result == self.sortingFactor:
+                        self.descending = not self.descending
+                    
+                    self.sortingFactor = result
+                    self.sortedAggregateStats = SummonerInfo.sortDictionary(self, self.championStats, self.sortingFactor)
+                    if self.descending:
+                        self.sortedAggregateStats.reverse()
+                #buttons:
+                #['Games', 'Wins', 'Losses', 'Win Rate', 'Kills', 'Deaths', 'Assists', 'Damage', 'Dmg Taken', 'Vision', 'Gold', 'CS']
+                # self.descending variable
     def keyPressed(self, event):
         if event.x == "Enter":
             print(self.matchIds)
+        elif event.key == "Down":
+            self.screenShift += 20
+        elif event.key == "Up":
+            self.screenShift -= 20
 
 
     def matchIdLoader(self):
@@ -301,6 +462,7 @@ class SummonerInfo(Mode):
         #rank
         canvas.create_image(pageLeft + 140, 110, image=ImageTk.PhotoImage(self.rankIcons[self.summonerTier]), anchor = 'nw')
         canvas.create_text(pageLeft + 240, 150, text=self.summonerRank, font = 'arial 14', anchor='w')
+        #canvas.create_text(pageLeft + 240, 170, text=self.summonerRank, font = 'arial 14', anchor='w')
         #button:
         x, y = self.buttonLocation
         dy, dx = self.buttonSize
@@ -309,19 +471,48 @@ class SummonerInfo(Mode):
         canvas.create_rectangle(x, y, x1, y1, fill=color, width = 0)
         canvas.create_text(x + (x1-x)/2, y + (y1-y)/2, fill='white', text="Update", font = "Arial 12 bold")
 
+        #line position:
+        x10, y10, x11, y11 = self.pageLeft, 320, self.width-self.pageLeft, 320
+        #button1 position:
+        buttonSize = self.modeButtonSize
+        x0, y0, x1, y1 = self.pageLeft, 290, self.pageLeft+buttonSize, 320
+        #button2 position:
+        x2, y2, x3, y3 = self.pageLeft+ buttonSize, 290, self.pageLeft+buttonSize * 2, 320
+        #button3 pos:
+        x4, y4, x5, y5 = self.pageLeft + buttonSize*2, 290, self.pageLeft+buttonSize*3, 320
+        #buttons with the different modes: # "overview", "champions", "improvement"??
+        canvas.create_line(x10, y10, x11, y11)
+        color = "grey" if self.mode == "overview" else None
+        canvas.create_rectangle(x0, y0, x1, y1, fill = color)
+        canvas.create_text(x0+(x1-x0)/2, y0+(y1-y0)/2, text="Overview")
+        color = "grey" if self.mode == "champions" else None
+        canvas.create_rectangle(x2, y2, x3, y3, fill = color)
+        canvas.create_text(x2+(x3-x2)/2, y2+(y3-y2)/2, text="Champions")
+        color = "grey" if self.mode == "improvement" else None
+        canvas.create_rectangle(x4, y4, x5, y5, fill = color)
+        canvas.create_text(x4+(x5-x4)/2, y4+(y5-y4)/2, text="Improvement")
+
+        #draw the mode:
+        if self.mode == "overview":
+            SummonerInfo.drawOverview(self, canvas)
+        elif self.mode == "champions":
+            SummonerInfo.drawChampions(self, canvas)
+        elif self.mode == "improvement":
+            SummonerInfo.drawImprovement(self, canvas)
         #if we are updating, draw the progress bar
         if self.updating:
             length = 400
-            x0, y0, x1, y1 = pageLeft+100, 260, pageLeft+100 + length, 285
+            x0, y0, x1, y1 = pageLeft+100, 240, pageLeft+100 + length, 265
             canvas.create_rectangle(x0, y0, x1, y1)
 
             ext = self.progress/100* length
             canvas.create_rectangle(x0, y0, x0 + ext, y1, fill = 'green', width = 0)
             
+            canvas.create_text(x0, y0 + 35, text=f"{self.estimatedTime} seconds remaining", anchor='w')
 
 
         #trying to draw the champions last played in 15 games:
-        x0, y0, x1, y1 = pageLeft+370, 40, pageLeft+ 600, 235
+        x0, y0, x1, y1 = pageLeft+600, 40, pageLeft+ 838, 235
         canvas.create_rectangle(x0, y0, x1, y1)
         if self.fifteenStats == None:
             canvas.create_text(x0+(x1-x0)/2, y0+(y1-y0)/2, text="No Stats Found", font = "arial 20", fill = "grey")
@@ -357,7 +548,54 @@ class SummonerInfo(Mode):
                     canvas.create_text(x5, y5, text=f"{kda} KDA", anchor = "w")
 
 
+    def drawOverview(self, canvas):
+        start = 350
+        size = 120
+        canvas.create_rectangle(self.pageLeft, start, self.width-self.pageLeft, start + size)
+        canvas.create_text(self.width/2, start + size/2, text='work in progress')
+    
+    def drawChampions(self, canvas):
+        if self.aggregateGameStats == None:
+            return
+        start = 350+Button.ysize/2
+        canvas.create_line(self.pageLeft, start, self.width-self.pageLeft, start)
+        for button in self.buttons:
+            button.draw(self, canvas)
+        
+        shift = self.screenShift
+        y = start + Button.ysize - shift
+        x = Button.xsize/2 + self.pageLeft
+        k = 0 #k is the amount of vertical distance
+        for dictionary in self.sortedAggregateStats:
+            for key in dictionary:
+                yTextPos = y+Button.ysize*(1+k)
+                if yTextPos < start + Button.ysize/2:
+                    continue
+                canvas.create_text(x, yTextPos, text=key)
+                championStats = dictionary[key]
+                i = 0 #i is the horizontal distance. 
+                for key in championStats:
+                    if key == 'gameDuration': continue
+                    canvas.create_text(x+Button.xsize*(1+i), y+Button.ysize*(1+k), text=championStats[key])
+                    i += 1
+            k += 1 
 
+
+    def create_buttons(self):
+        #creating the buttons
+        self.buttons = []
+        x = Button.xsize/2 + self.pageLeft
+        y = 350
+        self.buttons.append(Button(x, y, 'Champion'))
+        traits = ['Games', 'Wins', 'Losses', 'Win Rate', 'Kills', 'Deaths', 'Assists', 'Damage', 'Dmg Taken', 'Vision', 'Gold', 'CS']
+        for i in range(len(traits)):
+            self.buttons.append(Button(x+Button.xsize*(1+i),y, traits[i]))
+
+    def drawImprovement(self, canvas):
+        start = 350
+        size = 120
+        canvas.create_rectangle(self.pageLeft, start, self.width-self.pageLeft, start + size)
+        canvas.create_text(self.width/2, start + size/2, text='work in progress')
 
 class SearchScreen(Mode):
     def appStarted(self):
@@ -414,6 +652,9 @@ class SearchScreen(Mode):
             else:
                 self.summonerInformation['tier'] = None
                 self.summonerInformation['rank'] = None
+        else:
+            self.summonerInformation['tier'] = None
+            self.summonerInformation['rank'] = None
         return True
 
     def timerFired(self):
@@ -459,4 +700,4 @@ class SearchScreen(Mode):
                 canvas.create_text(self.width//2-w, self.height//2-h-17, text="Error, try again", fill = "red", anchor = "w", font = "helvetica 12")
 
 
-app = MyModalApp(width=1280, height=720)
+app = MyModalApp(width=1280, height=1000)
