@@ -145,7 +145,7 @@ class SummonerInfo(Mode):
             temp['Games'] = numGames
             temp['Wins'] = self.aggregateGameStats[key]['wins']
             temp['Losses'] = self.aggregateGameStats[key]['losses']
-            temp['Win Rate'] = round(temp['Wins']/numGames, 3) * 100
+            temp['Win Rate'] = round(round(temp['Wins']/numGames, 3) * 100, 1)
             temp['Kills'] = round(self.aggregateGameStats[key]['totalKills']/numGames, 1)
             temp['Deaths'] = round(self.aggregateGameStats[key]['totalDeaths']/numGames, 1)
             temp['Assists'] = round(self.aggregateGameStats[key]['totalAssists']/numGames, 1)
