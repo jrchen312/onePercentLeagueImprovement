@@ -36,7 +36,7 @@ class MyModalApp(ModalApp):
 
         #
         # API:
-        app.api = "RGAPI-5cded9e3-6780-45df-83a3-b204978939bc"
+        app.api = ""
         app.seasonStart = 1609920000 #time of start of season 11
         #
         #
