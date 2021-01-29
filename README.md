@@ -7,6 +7,8 @@ To avoid excessive lag, only 10 matches are displayed at a time. To scroll, eith
 A sorting algorithm sorts the data by the user's parameters. Clicking on each of the headers will sort the data by the parameter stated on the headers. 
 ![pic0](https://github.com/jrchen312/onePercentLeagueImprovement/blob/main/images/summonerGUI1.png)
 
+Pressing the "Escape" button will return the user back to the search page. 
+
 # Champions GUI
 Uses the Riot API (DataDragon) to obtain data about all the champions from League of Legends. 
 Parses through API data to obtain information about the skills that all of the champions have. The app also obtains champion splash screens and icon images from the API. 
