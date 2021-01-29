@@ -36,7 +36,7 @@ class MyModalApp(ModalApp):
 
         #
         # API:
-        app.api = "RGAPI-6890"
+        app.api = ""
         app.seasonStart = 1609920000 #time of start of season 11
         #
         #
@@ -45,7 +45,9 @@ class MyModalApp(ModalApp):
 class SummonerInfo(Mode):
     def appStarted(self):
         SummonerInfo.loadRanks(self)
+        SummonerInfo.loadSummonerSpells(self)
         SummonerInfo.loadChampionDetails(self)
+        SummonerInfo.loadQueueDetails(self)
 
         #drawing stuff
         self.pageLeft = 220
@@ -58,6 +60,7 @@ class SummonerInfo(Mode):
         SummonerInfo.recentFifteenGames(self)
 
         self.updating = False
+        self.preexisting = False
         self.matchIds = []
         self.currentMatchList = None
         self.i = 0
@@ -68,6 +71,13 @@ class SummonerInfo(Mode):
         self.mode = "overview" # "overview", "champions", "improvement"??
         self.modeButtonSize = (self.width-self.pageLeft*2)//3
         self.screenShift = 0
+        self.scrolling = False
+        self.initialScrollValue = 0
+
+        self.gameStartIndex = 0
+        self.numDisplayGames = 10
+        minVal = len(self.matchHistory) if self.matchHistory != None else 0
+        self.gameEndIndex = min(self.gameStartIndex + self.numDisplayGames, minVal)
 
         #loading information related to the champions--aggregate champion games and ranked stats: ('champions')
         self.sortingFactor = 'Games'
@@ -206,6 +216,24 @@ class SummonerInfo(Mode):
         self.championToID = championToID
         self.latestVersion = latestVersion
 
+    def loadQueueDetails(self):
+        gameModes = requests.get('http://static.developer.riotgames.com/docs/lol/queues.json')
+        #if gameModes.status_code == 200
+        gameModes = gameModes.json()
+        self.queueToDescription = dict()
+        for dictionary in gameModes:
+            description = dictionary['description']
+            if description == None:
+                description = "Custom games"
+            index = description.find(' games')
+            if index >= 0:
+                description = description[:index]
+            index = description.find('5v5 ')
+            if index >= 0:
+                description = description[index+4:]
+            self.queueToDescription[dictionary['queueId']] = description
+        #print(self.queueToDescription)
+
     #gets the kda, number of wins, number losses, total games?
     def recentFifteenGames(self):
         championsPlayed = dict()
@@ -325,6 +353,20 @@ class SummonerInfo(Mode):
 
         self.rankIcons['unranked'] = self.rankIcons['challenger']
 
+    #loads the summoner icons into self.summonerSpellIcons.
+    #This could fail in the future, but removes need to use internet to slowly load these images in. 
+    def loadSummonerSpells(self):
+        self.summonerSpellIcons = dict()
+        names = {'21': 'SummonerBarrier.png', '1': 'SummonerBoost.png', '14': 'SummonerDot.png', 
+        '3': 'SummonerExhaust.png', '4': 'SummonerFlash.png', '6': 'SummonerHaste.png', 
+        '7': 'SummonerHeal.png', '13': 'SummonerMana.png', '30': 'SummonerPoroRecall.png', 
+        '31': 'SummonerPoroThrow.png', '11': 'SummonerSmite.png', '39': 'SummonerSnowURFSnowball_Mark.png', 
+        '32': 'SummonerSnowball.png', '12': 'SummonerTeleport.png', '0': 'placeholder.png'} 
+
+        for idNum in names:
+            tempImg = self.loadImage('images/' + names[idNum])
+            self.summonerSpellIcons[idNum] = self.scaleImage(tempImg, 1/2)
+        #print(self.summonerSpellIcons)
 
     def mousePressed(self, event):
         buttonX, buttonY = self.buttonLocation
@@ -333,6 +375,19 @@ class SummonerInfo(Mode):
         if buttonX <= event.x <= buttonX1 and buttonY <= event.y <= buttonY1:
             print('UPDATING')
             self.updating = True
+            #getting the file name:
+            file = self.summonerName.lower()
+            for i in range(len(file)):
+                if file[i] == " ":
+                    file = file[:i] + file[i+1:]
+            fileName = file + 'Data.txt'
+            try:
+                with open(fileName) as json_file:
+                    self.preexisting = True
+                    print('file found!')
+            except:
+                self.preexisting = False
+                print('no file found!')
         ##################################
         #Code for the mode buttons: pretty poor practice
         #button1 position:
@@ -368,13 +423,29 @@ class SummonerInfo(Mode):
                 #buttons:
                 #['Games', 'Wins', 'Losses', 'Win Rate', 'Kills', 'Deaths', 'Assists', 'Damage', 'Dmg Taken', 'Vision', 'Gold', 'CS']
                 # self.descending variable
+        
+        #################
+        # scrolling?
+        self.scrolling = True
+        self.initialScrollValue = event.y
+    
+    def mouseDragged(self, event):
+        self.screenShift += (self.initialScrollValue - event.y) * 2
+        self.initialScrollValue = event.y
+
+    def mouseReleased(self, event):
+        self.scrolling = False #yeah, this is probably pretty useless lol
+        print(self.screenShift, self.gameStartIndex)
+
+
     def keyPressed(self, event):
-        if event.x == "Enter":
-            print(self.matchIds)
+        if event.key == "Enter":
+            pass
+
         elif event.key == "Down":
-            self.screenShift += 20
+            self.screenShift += 25
         elif event.key == "Up":
-            self.screenShift -= 20
+            self.screenShift -= 25
 
 
     def matchIdLoader(self):
@@ -388,6 +459,8 @@ class SummonerInfo(Mode):
             
             self.currentMatchList = matches # ['totalGames']
             self.i += 100
+
+
 
     def matchJsonLoader(self):
         match = self.matchIds[self.j]
@@ -420,9 +493,65 @@ class SummonerInfo(Mode):
 
 
     def timerFired(self):
-        if self.updating:
+        if self.updating and not self.preexisting:
             SummonerInfo.updateController(self)
+        elif self.updating and self.preexisting:
+            SummonerInfo.updatePreexistingController(self)
+        
+        if self.mode == 'overview':
+            """
+            self.gameStartIndex = 0
+            self.numDisplayGames = 10
+            minVal = len(self.matchHistory) if self.matchHistory != None else 0
+            self.gameEndIndex = min(self.gameStartIndex + self.numDisplayGames, minVal)
+            """
+            start = 350
+            size = 120
+            buffer = 0
+            
+            temp = self.screenShift//(size + buffer)
+            if temp < 0:
+                temp = 0
+            self.gameStartIndex = min(temp, len(self.matchHistory)-self.numDisplayGames)
+            self.gameEndIndex = self.gameStartIndex + self.numDisplayGames
 
+    def updatePreexistingController(self):
+        #populating the self.matchIds list
+        if self.currentMatchList == None:
+            SummonerInfo.matchIdLoader(self)
+            #time of the most recent match
+            self.mostRecentMatchDate = self.matchHistory[0]['timestamp']
+            #toggle variable.
+            self.matchIdsPrepared = False
+        elif self.i < self.currentMatchList['totalGames']:
+            SummonerInfo.matchIdLoader(self)
+        else:
+            if not self.matchIdsPrepared:
+                print(len(self.matchIds))
+                self.matchIdsPrepared = True
+                temp = []
+                for match in self.matchIds:
+                    if match['timestamp'] > self.mostRecentMatchDate:
+                        temp.append(match)
+                temp.reverse()
+                self.matchIds = temp
+                print(len(self.matchIds))
+            elif self.j < len(self.matchIds):
+                SummonerInfo.matchJsonLoader(self)
+            else:
+                self.updating = False
+                #updating self.matchHistory
+                for match in self.matchIds:
+                    self.matchHistory.insert(0, match)
+                #file Name:
+                file = self.summonerName.lower()
+                for i in range(len(file)):
+                    if file[i] == " ":
+                        file = file[:i] + file[i+1:]
+                fileName = file + 'Data.txt'
+                with open(fileName, 'w') as outfile:
+                    json.dump(self.matchHistory, outfile, indent=4)
+                SummonerInfo.appStarted(self)
 
     def updateController(self):
         if self.currentMatchList == None:
@@ -444,7 +573,6 @@ class SummonerInfo(Mode):
                 with open(fileName, 'w') as outfile:
                     json.dump(self.matchIds, outfile, indent=4)
                 SummonerInfo.appStarted(self)
-        pass
 
     def redrawAll(self, canvas):
         #Header:
@@ -452,6 +580,16 @@ class SummonerInfo(Mode):
         #page color:
         canvas.create_rectangle(pageLeft-20, 0, self.width-pageLeft+20, self.height, fill = "light blue", width = 0)
 
+        #draw the mode:
+        if self.mode == "overview":
+            SummonerInfo.drawOverview(self, canvas)
+        elif self.mode == "champions":
+            SummonerInfo.drawChampions(self, canvas)
+        elif self.mode == "improvement":
+            SummonerInfo.drawImprovement(self, canvas)
+
+        #draw a rectangle thing over the mode stuff to hide it :)
+        canvas.create_rectangle(pageLeft-20, 0, self.width-pageLeft+20, 340, fill = "light blue", width = 0)
         #icon image:
         canvas.create_image(pageLeft, 50, image=ImageTk.PhotoImage(self.summonerIcon), anchor = 'nw')
         #summonerlevel?
@@ -492,13 +630,7 @@ class SummonerInfo(Mode):
         canvas.create_rectangle(x4, y4, x5, y5, fill = color)
         canvas.create_text(x4+(x5-x4)/2, y4+(y5-y4)/2, text="Improvement")
 
-        #draw the mode:
-        if self.mode == "overview":
-            SummonerInfo.drawOverview(self, canvas)
-        elif self.mode == "champions":
-            SummonerInfo.drawChampions(self, canvas)
-        elif self.mode == "improvement":
-            SummonerInfo.drawImprovement(self, canvas)
+        
         #if we are updating, draw the progress bar
         if self.updating:
             length = 400
@@ -551,8 +683,74 @@ class SummonerInfo(Mode):
     def drawOverview(self, canvas):
         start = 350
         size = 120
-        canvas.create_rectangle(self.pageLeft, start, self.width-self.pageLeft, start + size)
-        canvas.create_text(self.width/2, start + size/2, text='work in progress')
+        buffer = 15
+        #canvas.create_rectangle(self.pageLeft, start, self.width-self.pageLeft, start + size)
+        #canvas.create_text(self.width/2, start + size/2, text='work in progress')
+        shift = self.screenShift
+        startY = start - shift
+        #trying to list out the first 10 matches
+        for i in range(self.gameStartIndex, self.gameEndIndex):
+            matchDetails = self.matchHistory[i]
+            if matchDetails['summonerStats']['stats']['win']:
+                color = SummonerInfo.rgbString(97, 194, 75) #random green
+                victoryText = "Win"
+            else:
+                color = SummonerInfo.rgbString(226, 182, 179) #soft red
+                victoryText  = "Loss"
+            x0 = self.pageLeft
+            y0 = startY + (size)*i+buffer
+            x1 = self.width-self.pageLeft
+            y1 = startY + (size) * (i+1)
+            canvas.create_rectangle(x0, y0, x1, y1, fill=color)
+            
+            #queue !
+            queue = self.queueToDescription[(matchDetails['queue'])]
+            canvas.create_text(x0+40, y0 + size*(1/10), text=queue, font='calibri 10')
+
+            min, sec = SummonerInfo.secondsToMinutes(matchDetails['gameDuration'])
+            gameLength = f"{min}:{sec}"
+            canvas.create_text(x0 + 40, y0 + size*(1/3), text=victoryText, font = 'calibri 14')
+            canvas.create_text(x0 + 40, y0 + size*(2/3), text=gameLength, font = 'calibri 12')
+
+            try:
+                img1 = self.summonerSpellIcons[str(matchDetails['summonerStats']['spell1Id'])]
+            except:
+                img1 = self.summonerSpellIcons['0']
+            try:
+                img2 = self.summonerSpellIcons[str(matchDetails['summonerStats']['spell2Id'])]
+            except:
+                img2 = self.summonerSpellIcons['0']
+
+            championPlayed = self.IDtoChampion[str(matchDetails['summonerStats']['championId'])]
+            k = matchDetails['summonerStats']['stats']['kills']
+            d = matchDetails['summonerStats']['stats']['deaths']
+            a = matchDetails['summonerStats']['stats']['assists']
+
+            kda = f"{k}/{d}/{a}"
+            if d == 0:
+                kd = f"KDA: {round(k+a, 2)}:1"
+            else:
+                kd = f"KDA: {round((k+a)/d, 2)}:1"
+            canvas.create_text(x0 + 130, y0 + size*(2/5), text=championPlayed, font='calibri 18 bold')
+
+            canvas.create_text(x0 + 300, y0 + size*(1/3), text=kda, font = 'calibri 12')
+            canvas.create_text(x0 + 300, y0 + size*(2/3), text=kd, font = 'calibri 12')
+
+            canvas.create_image(x0+220, y0 + size*(1/3)-5, image=ImageTk.PhotoImage(img1))
+            canvas.create_image(x0+220, y0 + size*(2/3)-5, image=ImageTk.PhotoImage(img2))
+
+            date = time.strftime('%m-%d-%Y', time.localtime(matchDetails['timestamp']//1000))
+            t = time.strftime('%H:%M', time.localtime(matchDetails['timestamp']//1000))
+            #date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(matchDetails['timestamp'])) #[:10]
+            canvas.create_text(x1 - 100, y0 + size*(1/3), text=date, font='calibri 12')
+            canvas.create_text(x1 - 100, y0 + size*(2/3), text=t, font='calibri 12')
+    
+    def secondsToMinutes(seconds):
+        sec = seconds % 60
+        min = seconds // 60
+        return min, sec
+
+
     
     def drawChampions(self, canvas):
         if self.aggregateGameStats == None:
@@ -568,6 +766,12 @@ class SummonerInfo(Mode):
         k = 0 #k is the amount of vertical distance
         for dictionary in self.sortedAggregateStats:
             for key in dictionary:
+
+                #does not display the champion if the number of games is less than 5. 
+                if dictionary[key]['Games'] < 5:
+                    k-=1
+                    continue #?
+                
                 yTextPos = y+Button.ysize*(1+k)
                 if yTextPos < start + Button.ysize/2:
                     continue
@@ -596,6 +800,10 @@ class SummonerInfo(Mode):
         size = 120
         canvas.create_rectangle(self.pageLeft, start, self.width-self.pageLeft, start + size)
         canvas.create_text(self.width/2, start + size/2, text='work in progress')
+
+    #code from https://www.cs.cmu.edu/~112/notes/notes-graphics.html#customColors
+    def rgbString(r, g, b):
+        return f'#{r:02x}{g:02x}{b:02x}'
 
 class SearchScreen(Mode):
     def appStarted(self):
