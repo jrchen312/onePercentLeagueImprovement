@@ -1,8 +1,10 @@
 # Summoner GUI
-Uses the Riot API for League of Legends to obtain match history data. The program is able to review all match histories from the past two years and display a summary of the results. The program is limited by the rate limit from the API. 
+Uses the Riot API for League of Legends to obtain match history data. The program is able to review all match histories that the API has (everything in the past two years) and display a summary of the results. The program is limited by the rate limit from the API. The algorithm for updating the API is nondestructive, so a theoretically unlimited amount of data is able to be stored. 
+
+To avoid excessive lag, only 10 matches are displayed at a time. To scroll, either use the arrow keys, or use drag around the screen with your mouse. Pressing "Home" or "End" on the keyboard will scroll to either the beginning or the end of the match history. 
 ![pic5](https://github.com/jrchen312/onePercentLeagueImprovement/blob/main/images/summonerGUI2.png)
 
-A sorting algorithm sorts the data by the user's parameters. 
+A sorting algorithm sorts the data by the user's parameters. Clicking on each of the headers will sort the data by the parameter stated on the headers. 
 ![pic0](https://github.com/jrchen312/onePercentLeagueImprovement/blob/main/images/summonerGUI1.png)
 
 # Champions GUI
